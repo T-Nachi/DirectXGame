@@ -4,19 +4,31 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() { 
+	delete model_; 
+	delete player_;
+}
 
 void GameScene::Initialize() {
+
+	textureHandle_ = TextureManager::Load("slime.jpg");
+
+	model_ = Model::Create();
+
+	viewprojection_.Initialize();
+	worldtransform_.Initialize();
+	player_ = new Player;
+	player_->Initialize(model_,textureHandle_,worldtransform_);
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() { player_->Update(); }
 
 void GameScene::Draw() {
-
+	
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
@@ -27,6 +39,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -41,7 +54,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
+	player_->Draw(viewprojection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
