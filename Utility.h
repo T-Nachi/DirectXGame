@@ -27,5 +27,18 @@ public:
 	// ‰ÁZ
 	Vector3 Add(const Vector3& v1, const Vector3& v2);
 
+	// Œ¸Z
+	Vector3 Subract(const Vector3& v1, const Vector3& v2);
+
+	// ƒXƒJƒ‰[”{
+	Vector3 Multiply(float scalar, const Vector3& v);
+
+	// ’·‚³(ƒmƒ‹ƒ})
+	float Length(const Vector3& v);
+
+	// ³‹K‰»
+	Vector3 Normalize(const Vector3& v);
+
+	//
 	Vector3 TransformNormal(const Vector3& vector, const Matrix4x4& matrix);
 };

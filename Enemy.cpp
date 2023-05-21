@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "ImGuiManager.h"
 #include <cassert>
+#include <player.h>
 
 // 接近フェーズ更新関数
 void Enemy::PhaseApproach(const Vector3& v1, const Vector3& v2) {
@@ -18,20 +19,19 @@ void Enemy::PhaseApproach(const Vector3& v1, const Vector3& v2) {
 		fireTimer_ = kFireInterval;
 	}
 }
-// 離脱フェーズ更新関数
-void Enemy::PhaseLeave(const Vector3& v1, const Vector3& v2) {
-	worldTransform_.translation_ = utility_->Add(v1, v2);
-}
 
 // 弾の処理
 void Enemy::Fire() {
+	assert(player_);
 
 	// 弾の速度
-	const float kBulletSpeed = -1.0f;
-	Vector3 velocity(0, 0, kBulletSpeed);
+	const float kBulletSpeed = 1.0f;
 
-	// 速度ベクトルを自機の向きに合わせて回転させる
-	velocity = utility_->TransformNormal(velocity, worldTransform_.matWorld_);
+	Vector3 playerVector = player_->GetWorldPosition();
+	Vector3 enemyVector = GetWorldPosition();
+	Vector3 vector = utility_->Subract(playerVector, enemyVector);
+	vector = utility_->Normalize(vector);
+	Vector3 velocity = utility_->Multiply(kBulletSpeed, vector);
 
 	// 弾を生成、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
@@ -44,6 +44,21 @@ void Enemy::Fire() {
 void Enemy::approachInitialize() {
 	// 発射タイマーを初期化
 	fireTimer_ = kFireInterval;
+}
+
+// 離脱フェーズ更新関数
+void Enemy::PhaseLeave(const Vector3& v1, const Vector3& v2) {
+	worldTransform_.translation_ = utility_->Add(v1, v2);
+}
+
+Vector3 Enemy::GetWorldPosition() {
+	// ワールド座標を入れる関数
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return worldPos;
 }
 
 Enemy::~Enemy() {

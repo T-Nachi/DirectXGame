@@ -6,6 +6,9 @@
 #include "WorldTransform.h"
 #include <list>
 
+// 自機クラスの前方宣言
+class Player;
+
 class Enemy {
 public:
 	~Enemy();
@@ -35,6 +38,11 @@ public:
 
 	void approachInitialize();
 
+	void SetPlayer(Player* player) { player_ = player; }
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
 public:
 	WorldTransform worldTransform_;
 	Model* model_ = nullptr;
@@ -60,4 +68,7 @@ public:
 
 	// 弾
 	std::list<EnemyBullet*> bullets_;
+
+	// 自キャラ
+	Player* player_ = nullptr;
 };
