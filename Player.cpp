@@ -2,6 +2,14 @@
 #include "ImGuiManager.h"
 #include <cassert>
 
+Player::~Player() {
+	delete utility_;
+	for (PlayerBullet* bullet : bullets_) {
+
+		delete bullet;
+	}
+}
+
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	assert(model);
 	textureHandle_ = textureHandle;
@@ -14,15 +22,31 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 void Player::Attack() {
 
 	if (input_->PushKey(DIK_SPACE)) {
+		// ’e‚Ì‘¬“x
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+
+		// ‘¬“xƒxƒNƒgƒ‹‚ðŽ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚³‚¹‚é
+		velocity = utility_->TransformNormal(velocity, worldTransform_.matWorld_);
+
 		// ’e‚ð¶¬A‰Šú‰»
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
-		bullet_ = newBullet;
+		bullets_.push_back(newBullet);
 	}
 }
 
 void Player::Update() {
+
+	// ƒfƒXƒtƒ‰ƒO‚ª—§‚Á‚½’e‚ðíœ
+	bullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
 
 	const float kCharacterSpeed = 0.2f;
 	const float kRotSpeed = 0.02f;
@@ -50,10 +74,11 @@ void Player::Update() {
 
 	Attack();
 
-	if (bullet_) {
+	for (PlayerBullet* bullet : bullets_) {
 
-		bullet_->Update();
+		bullet->Update();
 	}
+
 	// ”ÍˆÍ‚ð’´‚¦‚È‚¢ˆ—
 
 	// •½sˆÚ“®
@@ -61,7 +86,6 @@ void Player::Update() {
 	worldTransform_.translation_ = utility_->Transform(move, translateMatrix);
 
 	worldTransform_.UpdateMatrix();
-	worldTransform_.TransferMatrix();
 
 	const float kMoveLimitX = 640.0f;
 
@@ -77,7 +101,7 @@ void Player::Update() {
 void Player::Draw(ViewProjection viewprojection) {
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);
 	// ’e‚Ì•`‰æ
-	if (bullet_) {
-		bullet_->Draw(viewprojection);
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(viewprojection);
 	}
 }

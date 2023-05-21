@@ -3,6 +3,7 @@
 #include "Audio.h"
 #include "DebugCamera.h"
 #include "DirectXCommon.h"
+#include "Enemy.h"
 #include "Input.h"
 #include "Model.h"
 #include "Player.h"
@@ -49,6 +50,7 @@ private: // メンバ変数
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+	uint32_t enemytextureHandle_ = 0;
 	// 3Dモデル
 	Model* model_ = nullptr;
 	// ビュープロジェクション
@@ -61,6 +63,9 @@ private: // メンバ変数
 	bool isDebugCameraActve_ = false;
 	// デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
+
+	// 敵
+	Enemy* enemy_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
