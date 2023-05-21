@@ -1,18 +1,7 @@
-#include "Player.h"
-#include "ImGuiManager.h"
-#include <cassert>
+ï»¿#include "Utility.h"
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
-	assert(model);
-	textureHandle_ = textureHandle;
-	model_ = model;
-
-	worldTransform_.Initialize();
-	input_ = Input::GetInstance();
-}
-
-// ‰ñ“]X
-Matrix4x4 Player::MakeRotateXMatrix(float theta = 0) {
+// å›žè»¢X
+Matrix4x4 Utility::MakeRotateXMatrix(float theta = 0) {
 	Matrix4x4 MakeRotateMatrix;
 	MakeRotateMatrix.m[0][0] = 1;
 	MakeRotateMatrix.m[0][1] = 0;
@@ -33,7 +22,7 @@ Matrix4x4 Player::MakeRotateXMatrix(float theta = 0) {
 	return MakeRotateMatrix;
 }
 // Y
-Matrix4x4 Player::MakeRotateYMatrix(float theta = 0) {
+Matrix4x4 Utility::MakeRotateYMatrix(float theta = 0) {
 	Matrix4x4 MakeRotateMatrix;
 	MakeRotateMatrix.m[0][0] = std::cos(theta);
 	MakeRotateMatrix.m[0][1] = 0;
@@ -55,7 +44,7 @@ Matrix4x4 Player::MakeRotateYMatrix(float theta = 0) {
 }
 
 // Z
-Matrix4x4 Player::MakeRotateZMatrix(float theta = 0) {
+Matrix4x4 Utility::MakeRotateZMatrix(float theta = 0) {
 	Matrix4x4 MakeRotateMatrix;
 	MakeRotateMatrix.m[0][0] = std::cos(theta);
 	MakeRotateMatrix.m[0][1] = std::sin(theta);
@@ -76,8 +65,8 @@ Matrix4x4 Player::MakeRotateZMatrix(float theta = 0) {
 	return MakeRotateMatrix;
 }
 
-// ƒXƒJƒ‰[”{
-Matrix4x4 Player::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
+// ã‚¹ã‚«ãƒ©ãƒ¼å€
+Matrix4x4 Utility::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 multiply;
 	multiply.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0] +
 	                   m1.m[0][3] * m2.m[3][0];
@@ -118,8 +107,8 @@ Matrix4x4 Player::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return multiply;
 };
 
-// •½sˆÚ“®
-Matrix4x4 Player::MakeTranselateMatrix(const Vector3& translate) {
+// å¹³è¡Œç§»å‹•
+Matrix4x4 Utility::MakeTranselateMatrix(const Vector3& translate) {
 	Matrix4x4 MakeTranslateMatrix;
 	MakeTranslateMatrix.m[0][0] = 1;
 	MakeTranslateMatrix.m[0][1] = 0;
@@ -140,10 +129,10 @@ Matrix4x4 Player::MakeTranselateMatrix(const Vector3& translate) {
 	return MakeTranslateMatrix;
 };
 
-// ƒAƒtƒBƒ“•ÏŠ·
-Matrix4x4 Player::MakeAffineMatrix(
+// ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›
+Matrix4x4 Utility::MakeAffineMatrix(
     const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
-	// ‰ñ“]
+	// å›žè»¢
 	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
 	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
@@ -169,7 +158,7 @@ Matrix4x4 Player::MakeAffineMatrix(
 	return MakeAffineMatrix;
 }
 
-Vector3 Player::Transform(const Vector3& vector, const Matrix4x4& matrix) {
+Vector3 Utility::Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	Vector3 result;
 	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] +
 	           1.0f * matrix.m[3][0];
@@ -185,44 +174,3 @@ Vector3 Player::Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	result.z /= w;
 	return result;
 };
-
-void Player::Update() {
-
-	const float kCharacterSpeed = 0.2f;
-
-	// ¶‰EˆÚ“®
-	if (input_->PushKey(DIK_A)) {
-		move.x -= kCharacterSpeed;
-	} else if (input_->PushKey(DIK_D)) {
-		move.x += kCharacterSpeed;
-	}
-
-	// ã‰ºˆÚ“®
-	if (input_->PushKey(DIK_S)) {
-		move.y -= kCharacterSpeed;
-	} else if (input_->PushKey(DIK_W)) {
-		move.y += kCharacterSpeed;
-	}
-
-	// ”ÍˆÍ‚ð’´‚¦‚È‚¢ˆ—
-
-	// •½sˆÚ“®
-	Matrix4x4 translateMatrix = MakeTranselateMatrix(move);
-	worldTransform_.translation_ = Transform(move, translateMatrix);
-
-	worldTransform_.matWorld_ = MakeAffineMatrix(
-	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-	worldTransform_.TransferMatrix();
-
-	const float kMoveLimitX = 640.0f;
-
-	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
-
-	ImGui::Begin("Debug1");
-	ImGui::Text("PlayerPos %d.%d,%d", move.x, worldTransform_.translation_.y, move.z);
-	ImGui::End();
-}
-
-void Player::Draw(ViewProjection viewprojection) {
-	model_->Draw(worldTransform_, viewprojection, textureHandle_);
-}

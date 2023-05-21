@@ -1,34 +1,70 @@
 #include "GameScene.h"
+#include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { 
-	delete model_; 
+GameScene::~GameScene() {
+
+	delete model_;
 	delete player_;
+	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
 
-	textureHandle_ = TextureManager::Load("slime.jpg");
-
-	model_ = Model::Create();
-
-	viewprojection_.Initialize();
-	worldtransform_.Initialize();
-	player_ = new Player;
-	player_->Initialize(model_,textureHandle_,worldtransform_);
-
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	// ファイル名を指定してテクスチャを読み込む
+	textureHandle_ = TextureManager::Load("slime.jpg");
+	// 3Dモデルの生成
+	model_ = Model::Create();
+
+	// ビュープロジェクションの初期化
+	viewprojection_.Initialize();
+
+	player_ = new Player();
+	player_->Initialize(model_, textureHandle_);
+
+	// デバックカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
+
+	// 軸方向表示
+	AxisIndicator::GetInstance()->SetVisible(true);
+	// 軸方向表示が参照するビュープロジェクション
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewprojection_);
 }
 
-void GameScene::Update() { player_->Update(); }
+void GameScene::Update() {
+	player_->Update();
+	debugCamera_->Update();
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_SPACE)) {
+
+		isDebugCameraActve_ = true;
+	}
+
+	if (isDebugCameraActve_) {
+		debugCamera_->Update();
+		viewprojection_.matView = debugCamera_->GetViewProjection().matView;
+		viewprojection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+
+		viewprojection_.TransferMatrix();
+
+	} else {
+
+		viewprojection_.UpdateMatrix();
+	}
+
+#endif
+}
 
 void GameScene::Draw() {
-	
+
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
@@ -39,7 +75,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
-	
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -55,6 +90,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	player_->Draw(viewprojection_);
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

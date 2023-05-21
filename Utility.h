@@ -1,29 +1,15 @@
 #pragma once
-#include "Input.h"
-#include "Model.h"
+#include "ImGuiManager.h"
 #include "WorldTransform.h"
+#include <cassert>
 
-class Player {
+class Utility {
 public:
-	/// <summary>
-	/// ‰Šú‰»
-	/// </summary>
-	void Initialize(Model* model, uint32_t textureHandle_);
-
-	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
-	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// •`‰æ
-	/// </summary>
-	void Draw(ViewProjection viewprojection);
-
 	// ‰ñ“]X
 	Matrix4x4 MakeRotateXMatrix(float theta);
 	// Y
 	Matrix4x4 MakeRotateYMatrix(float theta);
+
 	// Z
 	Matrix4x4 MakeRotateZMatrix(float theta);
 
@@ -38,12 +24,4 @@ public:
 	    MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 	Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
-
-private:
-	WorldTransform worldTransform_;
-	Model* model_ = nullptr;
-	uint32_t textureHandle_ = 0u;
-	Input* input_ = nullptr;
-	Vector3 move = {0, 0, 0};
 };
-
