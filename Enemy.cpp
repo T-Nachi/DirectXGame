@@ -20,6 +20,8 @@ void Enemy::PhaseApproach(const Vector3& v1, const Vector3& v2) {
 	}
 }
 
+void Enemy::OnCollision() {}
+
 // 弾の処理
 void Enemy::Fire() {
 	assert(player_);
@@ -89,6 +91,15 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 /// 毎フレーム処理
 /// </summary>
 void Enemy::Update() {
+
+	// デスフラグが立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
 
 	switch (phase_) {
 	case Enemy::Phase::Approach:

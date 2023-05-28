@@ -2,6 +2,19 @@
 #include "ImGuiManager.h"
 #include <cassert>
 
+Vector3 PlayerBullet::GetWorldPosition() {
+	// ワールド座標を入れる関数
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得（ワールド座標）
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+	return worldPos;
+}
+
+// 衝突を検出したら呼び出されるコールバック関数
+void PlayerBullet::OnCollision() { isDead_ = true; }
+
 PlayerBullet::~PlayerBullet() { delete utility_; }
 
 /// <summary>
@@ -10,7 +23,7 @@ PlayerBullet::~PlayerBullet() { delete utility_; }
 void PlayerBullet::Initialize(Model* model, Vector3& position, const Vector3& velocity) {
 
 	assert(model);
-	textureHandle_ = TextureManager::Load("slime.png");
+	textureHandle_ = TextureManager::Load("slime2.png");
 	model_ = model;
 
 	worldTransform_.Initialize();
