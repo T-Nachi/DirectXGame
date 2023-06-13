@@ -20,14 +20,14 @@ PlayerBullet::~PlayerBullet() { delete utility_; }
 /// <summary>
 /// èâä˙âª
 /// </summary>
-void PlayerBullet::Initialize(Model* model, Vector3& position, const Vector3& velocity) {
+void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 
 	assert(model);
 	textureHandle_ = TextureManager::Load("slime2.png");
 	model_ = model;
 
-	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
+	worldTransform_.Initialize();
 
 	// à¯êîÇ≈éÛÇØéÊÇ¡ÇΩë¨ìxÇÉÅÉìÉoïœêîÇ…ë„ì¸
 	velocity_ = velocity;
@@ -45,6 +45,12 @@ void PlayerBullet::Update() {
 
 	worldTransform_.translation_ = utility_->Add(worldTransform_.translation_, velocity_);
 	worldTransform_.UpdateMatrix();
+
+	ImGui::Begin("BulletPos");
+	ImGui::Text(
+	    "BulletPos %f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
+	    worldTransform_.translation_.z);
+	ImGui::End();
 };
 
 /// <summary>

@@ -3,17 +3,6 @@
 #include "TextureManager.h"
 #include <cassert>
 
-GameScene::GameScene() {}
-
-GameScene::~GameScene() {
-
-	delete model_;
-	delete player_;
-	delete debugCamera_;
-	delete enemy_;
-	delete modelSkydome_;
-}
-
 void GameScene::CheckAllCollision() {
 	// 判定対象AとBの座標
 	Vector3 posA, posB;
@@ -104,6 +93,18 @@ void GameScene::CheckAllCollision() {
 #pragma endregion
 }
 
+GameScene::GameScene() {}
+
+GameScene::~GameScene() {
+
+	delete model_;
+	delete player_;
+	delete debugCamera_;
+	delete enemy_;
+	delete modelSkydome_;
+	delete railCamera_;
+}
+
 void GameScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
@@ -117,10 +118,12 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 
 	// ビュープロジェクションの初期化
+	viewprojection_.farZ = 1000.0f;
 	viewprojection_.Initialize();
 
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_);
+	Vector3 playerPosition(0, 0, 50.0f);
+	player_->Initialize(model_, textureHandle_, playerPosition);
 
 	// 敵の追加
 	enemy_ = new Enemy();
@@ -134,8 +137,15 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("skydom", true);
 	skydome_->Initialize(modelSkydome_);
 
+	// レールカメラの生成
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize({0, 0, -100}, player_->GetWorldRotation());
+
 	// デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
+
+	// 自キャラとレールカメラの親子関係を結ぶ
+	player_->SetParent(&railCamera_->GetWorldMatrix());
 
 	// 軸方向表示
 	AxisIndicator::GetInstance()->SetVisible(true);
@@ -144,11 +154,15 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	player_->Update();
+
 	debugCamera_->Update();
-	enemy_->Update();
-	skydome_->Update();
-	CheckAllCollision();
+	railCamera_->Update();
+
+	if (!isDebugCameraActve_) {
+		viewprojection_.matView = railCamera_->GetViewProjection().matView;
+		viewprojection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		viewprojection_.TransferMatrix();
+	}
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_1)) {
@@ -157,17 +171,20 @@ void GameScene::Update() {
 	}
 
 	if (isDebugCameraActve_) {
+		debugCamera_->SetFarZ(1000.0f);
 		debugCamera_->Update();
 		viewprojection_.matView = debugCamera_->GetViewProjection().matView;
 		viewprojection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 
 		viewprojection_.TransferMatrix();
-
-	} else {
-
-		viewprojection_.UpdateMatrix();
 	}
 
+	player_->Update();
+	enemy_->Update();
+
+	skydome_->Update();
+
+	CheckAllCollision();
 #endif
 }
 
@@ -200,10 +217,8 @@ void GameScene::Draw() {
 	player_->Draw(viewprojection_);
 	// 敵の描画
 	enemy_->Draw(viewprojection_);
-
 	// 天球
 	skydome_->Draw(viewprojection_);
-
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

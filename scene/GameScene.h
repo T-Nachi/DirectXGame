@@ -7,11 +7,12 @@
 #include "Input.h"
 #include "Model.h"
 #include "Player.h"
+#include "RailCamera.h"
 #include "SafeDelete.h"
+#include "Skydom.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "Skydom.h"
 
 /// <summary>
 /// ゲームシーン
@@ -60,6 +61,7 @@ private: // メンバ変数
 	// 3Dモデル
 	Model* model_ = nullptr;
 	// ビュープロジェクション
+	WorldTransform worldTransform_;
 	ViewProjection viewprojection_;
 
 	// 自キャラ
@@ -77,6 +79,9 @@ private: // メンバ変数
 	Skydome* skydome_ = nullptr;
 	// 3Dモデル
 	Model* modelSkydome_ = nullptr;
+
+	// レールカメラ
+	RailCamera* railCamera_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

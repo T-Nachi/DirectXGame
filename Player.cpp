@@ -10,12 +10,14 @@ Player::~Player() {
 	}
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
+void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& position) {
 	assert(model);
 	textureHandle_ = textureHandle;
 	model_ = model;
 
+	worldTransform_.translation_ = position;
 	worldTransform_.Initialize();
+
 	input_ = Input::GetInstance();
 }
 
@@ -30,10 +32,11 @@ void Player::Attack() {
 
 		// 速度ベクトルを自機の向きに合わせて回転させる
 		velocity = utility_->TransformNormal(velocity, worldTransform_.matWorld_);
+		Vector3 position = GetWorldPosition();
 
 		// 弾を生成、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+		newBullet->Initialize(model_, position, velocity);
 
 		bullets_.push_back(newBullet);
 	}
@@ -43,10 +46,25 @@ Vector3 Player::GetWorldPosition() {
 	// ワールド座標を入れる関数
 	Vector3 worldPos;
 	// ワールド行列の平行移動成分を取得（ワールド座標）
-	worldPos.x = worldTransform_.translation_.x;
-	worldPos.y = worldTransform_.translation_.y;
-	worldPos.z = worldTransform_.translation_.z;
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
 	return worldPos;
+}
+
+Vector3 Player::GetWorldRotation() {
+	// 角度を入れる関数
+	Vector3 worldRota;
+	// 角度を取得（ラジアン）
+	worldRota.x = worldTransform_.rotation_.x;
+	worldRota.y = worldTransform_.rotation_.y;
+	worldRota.z = worldTransform_.rotation_.z;
+	return worldRota;
+}
+
+void Player::SetParent(const WorldTransform* parent) {
+	// 親子関系を結ぶ
+	worldTransform_.parent_ = parent;
 }
 
 void Player::Update() {
@@ -62,7 +80,7 @@ void Player::Update() {
 
 	const float kCharacterSpeed = 0.2f;
 	const float kRotSpeed = 0.02f;
-
+	move = {0, 0, 0};
 	// 左右移動
 	if (input_->PushKey(DIK_A)) {
 		move.x -= kCharacterSpeed;
@@ -91,22 +109,28 @@ void Player::Update() {
 		bullet->Update();
 	}
 
-	// 範囲を超えない処理
-
 	// 平行移動
-	Matrix4x4 translateMatrix = utility_->MakeTranselateMatrix(move);
-	worldTransform_.translation_ = utility_->Transform(move, translateMatrix);
+
+	worldTransform_.translation_ = utility_->Add(move, worldTransform_.translation_);
+
+	// 範囲を超えない処理
+	/*
+	const float kMoveLimitX = 34.0f;
+	const float kMoveLimitY = 18.0f;
+
+	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
+	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
+	worldTransform_.translation_.y = max(worldTransform_.translation_.x, -kMoveLimitY);
+	worldTransform_.translation_.y = min(worldTransform_.translation_.x, +kMoveLimitY);
+	*/
 
 	worldTransform_.UpdateMatrix();
 
-	const float kMoveLimitX = 640.0f;
-
-	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
-
-	ImGui::Begin("Debug1");
+	ImGui::Begin("PlayerPos");
 	ImGui::Text(
-	    "PlayerPos %d.%d,%d", worldTransform_.matWorld_.m[3][0], worldTransform_.translation_.y,
-	    move.z);
+	    "PlayerPos %f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
+	    worldTransform_.translation_.z);
+	ImGui::SliderFloat3("pos", &worldTransform_.translation_.x, -10.0f, 10.0f);
 	ImGui::End();
 }
 
