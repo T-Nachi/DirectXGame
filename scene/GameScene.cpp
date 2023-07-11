@@ -219,7 +219,7 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("slime.png");
 	// レティクル用テクスチャ
 	enemytextureHandle_ = TextureManager::Load("slime3.png");
-	
+	TextureManager::Load("Reticle.png");
 	// 3Dモデルの生成
 	model_ = Model::Create();
 
@@ -300,7 +300,7 @@ void GameScene::Update() {
 		viewprojection_.TransferMatrix();
 	}
 
-	player_->Update();
+	player_->Update(viewprojection_);
 
 	for (Enemy* enemy : enemys_) {
 
@@ -366,7 +366,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
-	
+	player_->DrawUI();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 

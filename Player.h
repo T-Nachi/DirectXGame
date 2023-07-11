@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "Model.h"
 #include "PlayerBullet.h"
+#include "Sprite.h"
 #include "Utility.h"
 #include "WorldTransform.h"
 #include <list>
@@ -18,15 +19,22 @@ public:
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Update(const ViewProjection& viewProjection);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw(ViewProjection viewprojection);
 
+	/// <summary>
+	/// UI描画
+	/// </summary>
+	void DrawUI();
+
 	void Attack();
 
+	// 3DReticleワールド座標を取得
+	Vector3 Get3DReticleWorldPosition();
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 	// 回転角を取得
@@ -36,7 +44,7 @@ public:
 	void OnCollision();
 
 	// 弾リストを取得
-	const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
+	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
@@ -45,7 +53,12 @@ public:
 
 private:
 	WorldTransform worldTransform_;
+	// 3Dレティクル用ワールドトランスフォーム
+	WorldTransform worldTransform3DReticle_;
+	Sprite* sprite2DReticle_ = nullptr;
+
 	Model* model_ = nullptr;
+	Model* reticleModel_ = nullptr;
 	uint32_t textureHandle_ = 0u;
 	Input* input_ = nullptr;
 	Vector3 move = {0, 0, 0};
