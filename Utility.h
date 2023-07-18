@@ -7,6 +7,7 @@ class Utility {
 public:
 	// ‰ñ“]X
 	Matrix4x4 MakeRotateXMatrix(float theta);
+
 	// Y
 	Matrix4x4 MakeRotateYMatrix(float theta);
 
@@ -24,6 +25,7 @@ public:
 	    MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 	Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
+
 	// ‰ÁŽZ
 	Vector3 Add(const Vector3& v1, const Vector3& v2);
 
