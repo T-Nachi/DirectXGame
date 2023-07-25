@@ -36,7 +36,7 @@ private:
 	Model* model_ = nullptr;
 	uint32_t textureHandle_ = 0u;
 	Utility* utility_ = nullptr;
-
+	Input* input_ = nullptr;
 	// ‘¬“x
 	Vector3 velocity_;
 

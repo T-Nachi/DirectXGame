@@ -21,7 +21,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 
 	uint32_t textureReticle_ = TextureManager::Load("Reticle.png");
 	// スプライト生成
-	sprite2DReticle_ = Sprite::Create(
+	 sprite2DReticle_ = Sprite::Create(
 	    textureReticle_, {1280 / 2, 720 / 2}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 
 	model_ = model;
@@ -39,13 +39,10 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 void Player::OnCollision() {}
 
  void Player::Attack() {
-	// ゲームパッドの状態を得る変数(XINPUT)
-	 XINPUT_STATE joyState;
-	if (!Input::GetInstance()->GetJoystickState(0, joyState)) {
-		return;
-	}
+	
 
-	if (input_->PushKey(DIK_SPACE)) {
+	if (input_->TriggerKey(DIK_SPACE)) {
+
 		// 弾の速度
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, 0);
@@ -158,25 +155,9 @@ void Player::Update(const ViewProjection& viewProjection) {
 	const float kRotSpeed = 0.02f;
 	move = {0, 0, 0};
 
-	// ゲームパッドの状態を得る変数(XINPUT)
-	XINPUT_STATE joyState;
+	
 
-	// ジョイスティックの状態取得
-	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		move.x += (float)joyState.Gamepad.sThumbLX / SHRT_MAX * kCharacterSpeed;
-		move.y += (float)joyState.Gamepad.sThumbLY / SHRT_MAX * kCharacterSpeed;
-	}
-
-	// スプライトの現在座標を取得
-	Vector2 spritePos = spritePos = sprite2DReticle_->GetPosition();
-
-	// ジョイステック状態取得
-	 if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		spritePos.x += (float)joyState.Gamepad.sThumbRX / SHRT_MAX * 5.0f;
-		spritePos.y -= (float)joyState.Gamepad.sThumbRY / SHRT_MAX * 5.0f;
-		// スプライトの座標変更を反映
-		sprite2DReticle_->SetPosition(spritePos);
-	}
+	
 
 	// 左右移動
 	if (input_->PushKey(DIK_A)) {

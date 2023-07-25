@@ -15,7 +15,7 @@ Vector3 PlayerBullet::GetWorldPosition() {
 // 衝突を検出したら呼び出されるコールバック関数
 void PlayerBullet::OnCollision() { isDead_ = true; }
 
-PlayerBullet::~PlayerBullet() { delete utility_; }
+PlayerBullet::~PlayerBullet() { }
 
 /// <summary>
 /// 初期化
@@ -31,13 +31,16 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 
 	// 引数で受け取った速度をメンバ変数に代入
 	velocity_ = velocity;
+
+	input_ = Input::GetInstance();
 };
 
 /// <summary>
 /// 毎フレーム処理
 /// </summary>
 void PlayerBullet::Update() {
-
+	 
+	
 	// 時間経過でデス
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
@@ -51,6 +54,7 @@ void PlayerBullet::Update() {
 	    "BulletPos %f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
 	    worldTransform_.translation_.z);
 	ImGui::End();
+	
 };
 
 /// <summary>
