@@ -2,6 +2,7 @@
 #include "AxisIndicator.h"
 #include "DirectXCommon.h"
 #include "GameScene.h"
+#include "Scene.h"
 #include "ImGuiManager.h"
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
@@ -17,6 +18,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
+	// Scene* elseScene = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -55,11 +57,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	primitiveDrawer = PrimitiveDrawer::GetInstance();
 	primitiveDrawer->Initialize();
-#pragma endregion
 
-	// ゲームシーンの初期化
+#pragma endregion
 	gameScene = new GameScene();
 	gameScene->Initialize();
+	/* int scene = 0;
+
+	elseScene = new Scene();
+	elseScene->Initialize();*/
 
 	// メインループ
 	while (true) {
@@ -72,6 +77,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Begin();
 		// 入力関連の毎フレーム処理
 		input->Update();
+		/* if (scene == 0) {
+		    if (input->TriggerKey(DIK_SPACE)) {
+
+		        // ゲームシーンの初期化
+		        gameScene = new GameScene();
+		        gameScene->Initialize();
+		        scene = 1;
+		    }
+		} else if (scene == 1) {
+		    // ゲームシーンの毎フレーム処理
+		    gameScene->Update();
+		    if (gameScene->isGameOver == true) {
+		        scene = 3;
+		    } else if (gameScene->isClear) {
+		        scene = 2;
+		    }
+		} else {
+		    // 各種解放
+		    SafeDelete(gameScene);
+		    if (input->TriggerKey(DIK_SPACE)) {
+
+		            scene = 0;
+
+		    }
+		}*/
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
 		// 軸表示の更新
@@ -82,6 +112,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画開始
 		dxCommon->PreDraw();
 		// ゲームシーンの描画
+		/* if (scene == 1) {
+		    gameScene->Draw();
+		} else {
+		    elseScene->Draw(scene);
+		}*/
 		gameScene->Draw();
 		// 軸表示の描画
 		axisIndicator->Draw();

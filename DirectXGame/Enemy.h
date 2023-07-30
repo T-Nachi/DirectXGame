@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "Model.h"
 #include "Utility.h"
-#include "WorldTransform.h"
 #include <list>
 
 // ƒNƒ‰ƒX‚Ì‘O•ûéŒ¾

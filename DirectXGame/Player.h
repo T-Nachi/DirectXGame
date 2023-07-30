@@ -4,7 +4,6 @@
 #include "PlayerBullet.h"
 #include "Sprite.h"
 #include "Utility.h"
-#include "WorldTransform.h"
 #include <list>
 
 class Player {
@@ -33,6 +32,8 @@ public:
 
 	void Attack();
 
+	int isbulletcount;
+
 	void Reticle(const ViewProjection& viewProjection, const Vector2 pos);
 
 	// 3DReticleƒ[ƒ‹ƒhÀ•W‚ğæ“¾
@@ -60,7 +61,7 @@ private:
 	Sprite* sprite2DReticle_ = nullptr;
 
 	Model* model_ = nullptr;
-	Model* reticleModel_ = nullptr;
+	//Model* reticleModel_ = nullptr;
 	uint32_t textureHandle_ = 0u;
 	Input* input_ = nullptr;
 	Vector3 move = {0, 0, 0};

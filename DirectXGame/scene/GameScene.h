@@ -13,7 +13,6 @@
 #include "Skydom.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
-#include "WorldTransform.h"
 #include <list>
 #include <sstream>
 
@@ -53,6 +52,8 @@ public: // メンバ関数
 	/// </summary>
 	void CheckAllCollision();
 
+	int enemydeath;
+
 	/// <summary>
 	/// 敵弾の追加
 	/// </summary>
@@ -75,6 +76,10 @@ public: // メンバ関数
 	/// 敵発生コマンドの更新
 	/// </summary>
 	void UpdateEnemyPopCommands();
+
+	bool isClear;
+	bool isGameOver;
+
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

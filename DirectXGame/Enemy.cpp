@@ -14,7 +14,7 @@ void Enemy::PhaseApproach(const Vector3& v1, const Vector3& v2) {
 	// 発射タイマーカウントダウン
 	--fireTimer_;
 	// 指定時間に到達した
-	if (fireTimer_ == 0) {
+	if (fireTimer_ == -40) {
 		// 弾を発射
 		Fire();
 		// 発射タイマーの初期化
@@ -103,12 +103,12 @@ void Enemy::Update() {
 
 	worldTransform_.UpdateMatrix();
 
-	ImGui::Begin("EnemyPos");
+	/* ImGui::Begin("EnemyPos");
 	ImGui::Text(
 	    "EnemyPos %f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
 	    worldTransform_.translation_.z);
 
-	ImGui::End();
+	ImGui::End();*/
 };
 
 /// <summary>

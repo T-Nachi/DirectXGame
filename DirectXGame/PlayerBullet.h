@@ -2,7 +2,6 @@
 #include "Input.h"
 #include "Model.h"
 #include "ViewProjection.h"
-#include "WorldTransform.h"
 
 #include "Utility.h"
 class PlayerBullet {
@@ -46,4 +45,6 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	// デスフラグ
 	bool isDead_ = false;
+
+	int bulletcount_ = 10;
 };

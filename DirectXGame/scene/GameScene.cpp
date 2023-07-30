@@ -59,6 +59,9 @@ void GameScene::CheckAllCollision() {
 			                 (posB.z - posA.z) * (posB.z - posA.z);
 			float R1 = 1.0f;
 			float R2 = 1.0f;
+
+			enemydeath += 1;
+
 			if (distance <= (R1 + R2) * (R1 + R2)) {
 				// 敵の衝突時コールバックを呼び出す
 				enemy->OnCollision();
@@ -92,7 +95,7 @@ void GameScene::CheckAllCollision() {
 				// 敵弾の衝突時コールバックを呼び出す
 				enemybullet->OnCollision();
 				// 自キャラ弾の衝突時コールバックを呼び出す
-				bullet->OnCollision();
+				//bullet->OnCollision();
 			}
 		}
 	}
@@ -216,9 +219,9 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	// ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("slime.png");
+	textureHandle_ = TextureManager::Load("kuroo.jpg");
 	// レティクル用テクスチャ
-	enemytextureHandle_ = TextureManager::Load("slime3.png");
+	enemytextureHandle_ = TextureManager::Load("enemy.png");
 	TextureManager::Load("Reticle.png");
 	// 3Dモデルの生成
 	model_ = Model::Create();
@@ -250,9 +253,9 @@ void GameScene::Initialize() {
 	player_->SetParent(&railCamera_->GetWorldMatrix());
 
 	// 軸方向表示
-	AxisIndicator::GetInstance()->SetVisible(true);
+	//AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクション
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewprojection_);
+	//AxisIndicator::GetInstance()->SetTargetViewProjection(&viewprojection_);
 }
 
 void GameScene::Update() {
@@ -285,7 +288,7 @@ void GameScene::Update() {
 		viewprojection_.TransferMatrix();
 	}
 
-#ifdef _DEBUG
+ #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_1)) {
 
 		isDebugCameraActve_ = true;
@@ -312,11 +315,18 @@ void GameScene::Update() {
 		bullet->Update();
 	}
 
+	if (player_->isbulletcount <= 10) {
+		isGameOver = true;
+	}
+	if (enemydeath ==9) {
+		isClear = true;
+	}
 	CheckAllCollision();
+
 #endif
 }
 
-void GameScene::Draw() {
+void GameScene::Draw(){
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();

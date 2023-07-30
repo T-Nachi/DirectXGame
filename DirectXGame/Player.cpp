@@ -25,7 +25,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 	    textureReticle_, {1280 / 2, 720 / 2}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 
 	model_ = model;
-	reticleModel_ = model;
+	//reticleModel_ = model;
 
 	worldTransform_.translation_ = position;
 	worldTransform_.Initialize();
@@ -56,6 +56,8 @@ void Player::OnCollision() {}
 		newBullet->Initialize(model_, GetWorldPosition(), velocity);
 
 		bullets_.push_back(newBullet);
+	
+		isbulletcount += 1;
 	}
 }
 
@@ -92,7 +94,7 @@ void Player::Reticle(const ViewProjection& viewProjection, const Vector2 pos) {
 
 	worldTransform3DReticle_.UpdateMatrix();
 
-	ImGui::Begin("Player");
+	/* ImGui::Begin("Player");
 	ImGui::Text(
 	    "2Dreticle:( %f,%f)", sprite2DReticle_->GetPosition().x, sprite2DReticle_->GetPosition().y);
 	ImGui::Text("Near:(%+.2f,%+.2f,%+.2f)", posNear.x, posNear.y, posNear.z);
@@ -101,7 +103,7 @@ void Player::Reticle(const ViewProjection& viewProjection, const Vector2 pos) {
 	    "3Dreticle:(%+.2f,%+.2f,%+.2f)", worldTransform3DReticle_.translation_.x,
 	    worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 Vector3 Player::Get3DReticleWorldPosition() {
@@ -214,12 +216,12 @@ void Player::Update(const ViewProjection& viewProjection) {
 
 	worldTransform_.UpdateMatrix();
 
-	ImGui::Begin("PlayerPos");
+	/*ImGui::Begin("PlayerPos");
 	ImGui::Text(
 	    "PlayerPos %f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
 	    worldTransform_.translation_.z);
 	ImGui::SliderFloat3("pos", &worldTransform_.translation_.x, -10.0f, 10.0f);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Player::Draw(ViewProjection viewprojection) {
@@ -228,7 +230,7 @@ void Player::Draw(ViewProjection viewprojection) {
 	for (PlayerBullet* bullet : bullets_) {
 		bullet->Draw(viewprojection);
 	}
-	reticleModel_->Draw(worldTransform3DReticle_, viewprojection);
+	//reticleModel_->Draw(worldTransform3DReticle_, viewprojection);
 }
 
 void Player::DrawUI() { sprite2DReticle_->Draw(); }

@@ -115,6 +115,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="RailCamera.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
     <ClCompile Include="Skydom.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="RailCamera.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="scene\GameScene.h" />
     <ClInclude Include="Skydom.h" />
     <ClInclude Include="Utility.h" />

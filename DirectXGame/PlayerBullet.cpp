@@ -23,9 +23,10 @@ PlayerBullet::~PlayerBullet() { }
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 
 	assert(model);
-	textureHandle_ = TextureManager::Load("slime2.png");
+	textureHandle_ = TextureManager::Load("tama.png");
 	model_ = model;
 
+	
 	worldTransform_.translation_ = position;
 	worldTransform_.Initialize();
 
@@ -44,16 +45,12 @@ void PlayerBullet::Update() {
 	// ŽžŠÔŒo‰ß‚ÅƒfƒX
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
-	}
 
+	}
+	
 	worldTransform_.translation_ = utility_->Add(worldTransform_.translation_, velocity_);
 	worldTransform_.UpdateMatrix();
-
-	ImGui::Begin("BulletPos");
-	ImGui::Text(
-	    "BulletPos %f,%f,%f", worldTransform_.translation_.x, worldTransform_.translation_.y,
-	    worldTransform_.translation_.z);
-	ImGui::End();
+	
 	
 };
 
