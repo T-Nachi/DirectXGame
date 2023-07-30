@@ -1,9 +1,9 @@
-#include "Scene.h"
+ï»¿#include "Scene.h"
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
 #include <fstream>
-/* void Scene::Initialize() {
+ void Scene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -16,42 +16,42 @@
 
 void Scene::Draw(int s) {
 
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìæ“¾
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®å–å¾—
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 #pragma region 
-	// ”wŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+	// èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(commandList);
 
 	/// <summary>
-	/// ‚±‚±‚É”wŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«èƒŒæ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 	Sprite::PostDraw();
-	// [“xƒoƒbƒtƒ@ƒNƒŠƒA
+	// æ·±åº¦ãƒãƒƒãƒ•ã‚¡ã‚¯ãƒªã‚¢
 	dxCommon_->ClearDepthBuffer();
 #pragma endregion
 
 
 #pragma region 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æ‘Oˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å‰å‡¦ç†
 	Model::PreDraw(commandList);
 
 	/// <summary>
-	/// ‚±‚±‚É3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	Model::PostDraw();
 #pragma endregion
 
 #pragma region 
-	// ‘OŒiƒXƒvƒ‰ƒCƒg•`‰æ‘Oˆ—
+	// å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å‰å‡¦ç†
 	Sprite::PreDraw(commandList);
 
 	/// <summary>
-	/// ‚±‚±‚É‘OŒiƒXƒvƒ‰ƒCƒg‚Ì•`‰æˆ—‚ğ’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«å‰æ™¯ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 	if (s == 0) {
 		spriteScene->SetTextureHandle(title);
@@ -66,8 +66,8 @@ void Scene::Draw(int s) {
 		spriteScene->Draw();
 	}
 
-	// ƒXƒvƒ‰ƒCƒg•`‰æŒãˆ—
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæç”»å¾Œå‡¦ç†
 	Sprite::PostDraw();
 
 #pragma endregion
-}*/
+}

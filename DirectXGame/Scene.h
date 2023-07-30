@@ -1,6 +1,6 @@
-#pragma once
+﻿#pragma once
 #include "GameScene.h"
-/* class Scene {
+ class Scene {
 public:
 	void Initialize();
 
@@ -15,4 +15,4 @@ public:
 	uint32_t clear = 0;
 	uint32_t over = 0;
 	Sprite* spriteScene = nullptr;
-};*/
+};

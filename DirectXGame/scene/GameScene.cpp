@@ -38,7 +38,10 @@ void GameScene::CheckAllCollision() {
 			player_->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
 			bullet->OnCollision();
+			isHit += 1;
 		}
+		
+		
 	}
 
 #pragma endregion
@@ -60,9 +63,8 @@ void GameScene::CheckAllCollision() {
 			float R1 = 1.0f;
 			float R2 = 1.0f;
 
-			enemydeath += 1;
-
 			if (distance <= (R1 + R2) * (R1 + R2)) {
+				enemydeath += 1;
 				// 敵の衝突時コールバックを呼び出す
 				enemy->OnCollision();
 				// 自キャラ弾の衝突時コールバックを呼び出す
@@ -315,7 +317,7 @@ void GameScene::Update() {
 		bullet->Update();
 	}
 
-	if (player_->isbulletcount <= 10) {
+	if (player_->isbulletcount >= 11 || isHit == 10) {
 		isGameOver = true;
 	}
 	if (enemydeath ==9) {

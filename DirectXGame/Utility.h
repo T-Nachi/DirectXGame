@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include "ImGuiManager.h"
 #include "WorldTransform.h"
 #include <cassert>
 
 class Utility {
 public:
-	// ‰ñ“]X
+	// å›è»¢X
 	Matrix4x4 MakeRotateXMatrix(float theta);
 
 	// Y
@@ -14,43 +14,43 @@ public:
 	// Z
 	Matrix4x4 MakeRotateZMatrix(float theta);
 
-	// ƒXƒJƒ‰[”{
+	// ã‚¹ã‚«ãƒ©ãƒ¼å€
 	Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 
-	// •½sˆÚ“®
+	// å¹³è¡Œç§»å‹•
 	Matrix4x4 MakeTranselateMatrix(const Vector3& translate);
 
-	// ƒAƒtƒBƒ“•ÏŠ·
+	// ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›
 	Matrix4x4
 	    MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
 	Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 
-	// ‰ÁZ
+	// åŠ ç®—
 	Vector3 Add(const Vector3& v1, const Vector3& v2);
 
-	// Œ¸Z
+	// æ¸›ç®—
 	Vector3 Subract(const Vector3& v1, const Vector3& v2);
 
-	// ƒXƒJƒ‰[”{
+	// ã‚¹ã‚«ãƒ©ãƒ¼å€
 	Vector3 Multiply(float scalar, const Vector3& v);
 
-	// ’·‚³(ƒmƒ‹ƒ})
+	// é•·ã•(ãƒãƒ«ãƒ)
 	float Length(const Vector3& v);
 
-	// ³‹K‰»
+	// æ­£è¦åŒ–
 	Vector3 Normalize(const Vector3& v);
 
 	//
 	Vector3 TransformNormal(const Vector3& vector, const Matrix4x4& matrix);
 
-	// ‹t“]s—ñ
+	// é€†è»¢è¡Œåˆ—
 	Matrix4x4 Inverse(const Matrix4x4& m);
 
-	// Œ¸Z
+	// æ¸›ç®—
 	Matrix4x4 Subract(const Matrix4x4& m1, const Matrix4x4& m2);
 
-	// ƒrƒ…[ƒ|[ƒgs—ñ
+	// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¡Œåˆ—
 	Matrix4x4 MakeViewportMatrix(
 	    float left, float top, float width, float height, float minDepth, float maxDepth);
 };

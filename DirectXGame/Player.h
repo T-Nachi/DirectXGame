@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Input.h"
 #include "Model.h"
 #include "PlayerBullet.h"
@@ -11,22 +11,22 @@ public:
 	~Player();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(Model* model, uint32_t textureHandle_, const Vector3& position);
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update(const ViewProjection& viewProjection);
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(ViewProjection viewprojection);
 
 	/// <summary>
-	/// UI•`‰æ
+	/// UIæç”»
 	/// </summary>
 	void DrawUI();
 
@@ -36,27 +36,27 @@ public:
 
 	void Reticle(const ViewProjection& viewProjection, const Vector2 pos);
 
-	// 3DReticleƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	// 3DReticleãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	Vector3 Get3DReticleWorldPosition();
-	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	Vector3 GetWorldPosition();
-	// ‰ñ“]Šp‚ğæ“¾
+	// å›è»¢è§’ã‚’å–å¾—
 	Vector3 GetWorldRotation();
 
-	// Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+	// è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void OnCollision();
 
-	// ’eƒŠƒXƒg‚ğæ“¾
+	// å¼¾ãƒªã‚¹ãƒˆã‚’å–å¾—
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
 	/// <summary>
-	/// e‚Æ‚È‚éƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğƒZƒbƒg
+	/// è¦ªã¨ãªã‚‹ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
 	void SetParent(const WorldTransform* parent);
 
 private:
 	WorldTransform worldTransform_;
-	// 3DƒŒƒeƒBƒNƒ‹—pƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€
+	// 3Dãƒ¬ãƒ†ã‚£ã‚¯ãƒ«ç”¨ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ 
 	WorldTransform worldTransform3DReticle_;
 	Sprite* sprite2DReticle_ = nullptr;
 
@@ -66,9 +66,9 @@ private:
 	Input* input_ = nullptr;
 	Vector3 move = {0, 0, 0};
 	Player* player_;
-	// ”ŠwŠÖ”
+	// æ•°å­¦é–¢æ•°
 	Utility* utility_ = nullptr;
 
-	// ’e
+	// å¼¾
 	std::list<PlayerBullet*> bullets_;
 };

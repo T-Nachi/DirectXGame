@@ -51,7 +51,8 @@ public: // メンバ関数
 	/// 衝突判定と応答
 	/// </summary>
 	void CheckAllCollision();
-
+	
+	int isHit;
 	int enemydeath;
 
 	/// <summary>

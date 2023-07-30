@@ -1,19 +1,19 @@
-#pragma once
+ï»¿#pragma once
 /// <summary>
-/// s—ñ
+/// è¡Œåˆ—
 /// </summary>
 class Matrix4 {
 public:
-	// sx—ñ
+	// è¡Œxåˆ—
 	float m[4][4];
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Matrix4();
-	// ¬•ª‚ğw’è‚µ‚Ä‚Ì¶¬
+	// æˆåˆ†ã‚’æŒ‡å®šã—ã¦ã®ç”Ÿæˆ
 	Matrix4(
 	    float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13,
 	    float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33);
 
-	// ‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+	// ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	Matrix4& operator*=(const Matrix4& m2);
 };

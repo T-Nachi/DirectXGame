@@ -1,34 +1,34 @@
-#include "Enemy.h"
+ï»¿#include "Enemy.h"
 #include "EnemyBullet.h"
 #include "GameScene.h"
 #include "ImGuiManager.h"
 #include <cassert>
 #include <player.h>
 
-// Ú‹ßƒtƒF[ƒYXVŠÖ”
+// æ¥è¿‘ãƒ•ã‚§ãƒ¼ã‚ºæ›´æ–°é–¢æ•°
 void Enemy::PhaseApproach(const Vector3& v1, const Vector3& v2) {
 	worldTransform_.translation_ = utility_->Add(v1, v2);
 	if (worldTransform_.translation_.z < 0.0f) {
 		phase_ = Phase::Leave;
 	}
-	// ”­Ëƒ^ƒCƒ}[ƒJƒEƒ“ƒgƒ_ƒEƒ“
+	// ç™ºå°„ã‚¿ã‚¤ãƒãƒ¼ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³
 	--fireTimer_;
-	// w’èŠÔ‚É“’B‚µ‚½
+	// æŒ‡å®šæ™‚é–“ã«åˆ°é”ã—ãŸ
 	if (fireTimer_ == -40) {
-		// ’e‚ğ”­Ë
+		// å¼¾ã‚’ç™ºå°„
 		Fire();
-		// ”­Ëƒ^ƒCƒ}[‚Ì‰Šú‰»
+		// ç™ºå°„ã‚¿ã‚¤ãƒãƒ¼ã®åˆæœŸåŒ–
 		fireTimer_ = kFireInterval;
 	}
 }
 
 void Enemy::OnCollision() { isDead_ = true; }
 
-// ’e‚Ìˆ—
+// å¼¾ã®å‡¦ç†
 void Enemy::Fire() {
 	assert(player_);
 	assert(gameScene_);
-	// ’e‚Ì‘¬“x
+	// å¼¾ã®é€Ÿåº¦
 	const float kBulletSpeed = 1.0f;
 
 	Vector3 playerVector = player_->GetWorldPosition();
@@ -37,28 +37,28 @@ void Enemy::Fire() {
 	vector = utility_->Normalize(vector);
 	Vector3 velocity = utility_->Multiply(kBulletSpeed, vector);
 
-	// ’e‚ğ¶¬A‰Šú‰»
+	// å¼¾ã‚’ç”Ÿæˆã€åˆæœŸåŒ–
 	EnemyBullet* newBullet = new EnemyBullet();
 	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 	gameScene_->AddEnemyBullet(newBullet);
 }
 
-// Ú‹ßƒtƒF[ƒY‰Šú‰»
+// æ¥è¿‘ãƒ•ã‚§ãƒ¼ã‚ºåˆæœŸåŒ–
 void Enemy::approachInitialize() {
-	// ”­Ëƒ^ƒCƒ}[‚ğ‰Šú‰»
+	// ç™ºå°„ã‚¿ã‚¤ãƒãƒ¼ã‚’åˆæœŸåŒ–
 	fireTimer_ = kFireInterval;
 }
 
-// —£’EƒtƒF[ƒYXVŠÖ”
+// é›¢è„±ãƒ•ã‚§ãƒ¼ã‚ºæ›´æ–°é–¢æ•°
 void Enemy::PhaseLeave(const Vector3& v1, const Vector3& v2) {
 	worldTransform_.translation_ = utility_->Add(v1, v2);
 }
 
 Vector3 Enemy::GetWorldPosition() {
-	// ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚éŠÖ”
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å…¥ã‚Œã‚‹é–¢æ•°
 	Vector3 worldPos;
-	// ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ğæ“¾iƒ[ƒ‹ƒhÀ•Wj
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ï¼‰
 	worldPos.x = worldTransform_.matWorld_.m[3][0];
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
@@ -77,26 +77,26 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, const Vector3& posi
 	velocityApproach = {0.0f, 0.0f, -0.0f};
 	velocityLeave = {-0.05f, 0.05f, -0.1f};
 
-	// ’e‚ğ”­Ë
+	// å¼¾ã‚’ç™ºå°„
 	// Fire();
-	// Ú‹ßƒtƒF[ƒY‰Šú‰»
+	// æ¥è¿‘ãƒ•ã‚§ãƒ¼ã‚ºåˆæœŸåŒ–
 	approachInitialize();
 }
 
 /// <summary>
-/// –ˆƒtƒŒ[ƒ€ˆ—
+/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 /// </summary>
 void Enemy::Update() {
 
 	switch (phase_) {
 	case Enemy::Phase::Approach:
 	default:
-		// ˆÚ“®
+		// ç§»å‹•
 		PhaseApproach(worldTransform_.translation_, velocityApproach);
 
 		break;
 	case Enemy::Phase::Leave:
-		// ˆÚ“®
+		// ç§»å‹•
 		PhaseLeave(worldTransform_.translation_, velocityLeave);
 		break;
 	}
@@ -112,7 +112,7 @@ void Enemy::Update() {
 };
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void Enemy::Draw(ViewProjection viewprojection) {
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);

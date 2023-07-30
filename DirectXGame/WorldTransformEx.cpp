@@ -1,6 +1,6 @@
-#include "WorldTransform.h"
+ï»¿#include "WorldTransform.h"
 
-// ‰ñ“]X
+// å›è»¢X
 Matrix4x4 WorldTransform::MakeRotateXMatrix(float theta = 0) {
 	Matrix4x4 MakeRotateMatrix;
 	MakeRotateMatrix.m[0][0] = 1;
@@ -65,7 +65,7 @@ Matrix4x4 WorldTransform::MakeRotateZMatrix(float theta = 0) {
 	return MakeRotateMatrix;
 }
 
-// ƒXƒJƒ‰[”{
+// ã‚¹ã‚«ãƒ©ãƒ¼å€
 Matrix4x4 WorldTransform::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 multiply;
 	multiply.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0] +
@@ -107,10 +107,10 @@ Matrix4x4 WorldTransform::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return multiply;
 };
 
-// ƒAƒtƒBƒ“•ÏŠ·
+// ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›
 Matrix4x4 WorldTransform::MakeAffineMatrix(
     const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
-	// ‰ñ“]
+	// å›è»¢
 	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
 	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
@@ -137,7 +137,7 @@ Matrix4x4 WorldTransform::MakeAffineMatrix(
 }
 
 void WorldTransform::UpdateMatrix() {
-	// ƒXƒP[ƒ‹A‰ñ“]A•½sˆÚ“®‚ğ‡¬‚µ‚Äs—ñ‚ğŒvZ
+	// ã‚¹ã‚±ãƒ¼ãƒ«ã€å›è»¢ã€å¹³è¡Œç§»å‹•ã‚’åˆæˆã—ã¦è¡Œåˆ—ã‚’è¨ˆç®—
 	matWorld_ = MakeAffineMatrix(scale_, rotation_, translation_);
 
 	if (parent_) {

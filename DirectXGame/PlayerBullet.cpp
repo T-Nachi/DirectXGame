@@ -1,24 +1,24 @@
-#include "PlayerBullet.h"
+ï»¿#include "PlayerBullet.h"
 #include "ImGuiManager.h"
 #include <cassert>
 
 Vector3 PlayerBullet::GetWorldPosition() {
-	// ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚éŠÖ”
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å…¥ã‚Œã‚‹é–¢æ•°
 	Vector3 worldPos;
-	// ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ğæ“¾iƒ[ƒ‹ƒhÀ•Wj
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ï¼‰
 	worldPos.x = worldTransform_.translation_.x;
 	worldPos.y = worldTransform_.translation_.y;
 	worldPos.z = worldTransform_.translation_.z;
 	return worldPos;
 }
 
-// Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+// è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 void PlayerBullet::OnCollision() { isDead_ = true; }
 
 PlayerBullet::~PlayerBullet() { }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 
@@ -30,19 +30,19 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	worldTransform_.translation_ = position;
 	worldTransform_.Initialize();
 
-	// ˆø”‚Åó‚¯æ‚Á‚½‘¬“x‚ğƒƒ“ƒo•Ï”‚É‘ã“ü
+	// å¼•æ•°ã§å—ã‘å–ã£ãŸé€Ÿåº¦ã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã«ä»£å…¥
 	velocity_ = velocity;
 
 	input_ = Input::GetInstance();
 };
 
 /// <summary>
-/// –ˆƒtƒŒ[ƒ€ˆ—
+/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 /// </summary>
 void PlayerBullet::Update() {
 	 
 	
-	// ŠÔŒo‰ß‚ÅƒfƒX
+	// æ™‚é–“çµŒéã§ãƒ‡ã‚¹
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
 
@@ -55,7 +55,7 @@ void PlayerBullet::Update() {
 };
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void PlayerBullet::Draw(const ViewProjection& viewprojection) {
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);

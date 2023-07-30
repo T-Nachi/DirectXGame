@@ -1,4 +1,4 @@
-#include "Skydom.h"
+ï»¿#include "Skydom.h"
 void Skydome::Initialize(Model* model) {
 	assert(model);
 	model_ = model;
@@ -7,7 +7,7 @@ void Skydome::Initialize(Model* model) {
 }
 
 /// <summary>
-/// –ˆƒtƒŒ[ƒ€ˆ—
+/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 /// </summary>
 void Skydome::Update() {
 
@@ -16,7 +16,7 @@ void Skydome::Update() {
 };
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void Skydome::Draw(ViewProjection viewprojection) {
 	model_->Draw(worldTransform_, viewprojection);

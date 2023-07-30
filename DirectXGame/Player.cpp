@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "ImGuiManager.h"
 #include "WinApp.h"
 #include <cassert>
@@ -17,10 +17,10 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 	assert(model);
 
 	textureHandle_ = textureHandle;
-	// ƒŒƒeƒBƒNƒ‹—pƒeƒNƒXƒ`ƒƒæ“¾
+	// ãƒ¬ãƒ†ã‚£ã‚¯ãƒ«ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£å–å¾—
 
 	uint32_t textureReticle_ = TextureManager::Load("Reticle.png");
-	// ƒXƒvƒ‰ƒCƒg¶¬
+	// ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆç”Ÿæˆ
 	 sprite2DReticle_ = Sprite::Create(
 	    textureReticle_, {1280 / 2, 720 / 2}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 
@@ -30,7 +30,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 	worldTransform_.translation_ = position;
 	worldTransform_.Initialize();
 
-	// 3DƒŒƒeƒBƒNƒ‹—pƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‰Šú‰»
+	// 3Dãƒ¬ãƒ†ã‚£ã‚¯ãƒ«ç”¨ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ åˆæœŸåŒ–
 	worldTransform3DReticle_.Initialize();
 
 	input_ = Input::GetInstance();
@@ -38,57 +38,60 @@ void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& pos
 
 void Player::OnCollision() {}
 
+
  void Player::Attack() {
 	
+	 if (isbulletcount <= 10) {
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+		if (input_->TriggerKey(DIK_SPACE)) {
 
-		// ’e‚Ì‘¬“x
-		const float kBulletSpeed = 1.0f;
-		Vector3 velocity(0, 0, 0);
+			// å¼¾ã®é€Ÿåº¦
+			const float kBulletSpeed = 1.0f;
+			Vector3 velocity(0, 0, 0);
 
-		// ‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚³‚¹‚é
-		velocity = utility_->Subract(Get3DReticleWorldPosition(), GetWorldPosition());
-		velocity = utility_->Multiply(kBulletSpeed, utility_->Normalize(velocity));
+			// é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è‡ªæ©Ÿã®å‘ãã«åˆã‚ã›ã¦å›è»¢ã•ã›ã‚‹
+			velocity = utility_->Subract(Get3DReticleWorldPosition(), GetWorldPosition());
+			velocity = utility_->Multiply(kBulletSpeed, utility_->Normalize(velocity));
 
-		// ’e‚ğ¶¬A‰Šú‰»
-		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, GetWorldPosition(), velocity);
+			// å¼¾ã‚’ç”Ÿæˆã€åˆæœŸåŒ–
+			PlayerBullet* newBullet = new PlayerBullet();
+			newBullet->Initialize(model_, GetWorldPosition(), velocity);
 
-		bullets_.push_back(newBullet);
-	
-		isbulletcount += 1;
+			bullets_.push_back(newBullet);
+
+			isbulletcount += 1;
+		}
 	}
-}
+ }
 
 void Player::Reticle(const ViewProjection& viewProjection, const Vector2 pos) {
 
 	sprite2DReticle_->SetPosition(pos);
 
-	// ƒrƒ…[ƒ|[ƒgs—ñ
+	// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¡Œåˆ—
 	Matrix4x4 matViewport =
 	    utility_->MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
 
-	// ƒrƒ…[AƒvƒƒWƒFƒNƒVƒ‡ƒ“Aƒrƒ…[ƒ|[ƒg‡¬s—ñ
+	// ãƒ“ãƒ¥ãƒ¼ã€ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã€ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆåˆæˆè¡Œåˆ—
 	Matrix4x4 matVPV = utility_->Multiply(
 	    utility_->Multiply(viewProjection.matView, viewProjection.matProjection), matViewport);
 
-	// ‹ts—ñ‚É‚·‚é
+	// é€†è¡Œåˆ—ã«ã™ã‚‹
 	Matrix4x4 matInverseVPV = utility_->Inverse(matVPV);
 
-	// ƒXƒNƒŠ[ƒ“À•WŒn
+	// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ç³»
 	Vector3 posNear = Vector3(float(pos.x), float(pos.y), 0);
 	Vector3 posFar = Vector3(float(pos.x), float(pos.y), 1);
 
-	// ƒXƒNƒŠ[ƒ“À•W•ÏŠ·‚©‚çƒ[ƒ‹ƒhÀ•W
+	// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™å¤‰æ›ã‹ã‚‰ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™
 	posNear = utility_->Transform(posNear, matInverseVPV);
 	posFar = utility_->Transform(posFar, matInverseVPV);
 
-	// ƒ}ƒEƒXƒŒƒC‚Ì•ûŒü
+	// ãƒã‚¦ã‚¹ãƒ¬ã‚¤ã®æ–¹å‘
 	Vector3 mouseDirection = utility_->Subract(posFar, posNear);
 	mouseDirection = utility_->Normalize(mouseDirection);
 
-	// ƒJƒƒ‰‚©‚ç•W€ƒIƒuƒWƒFƒNƒg‚Ì‹——£
+	// ã‚«ãƒ¡ãƒ©ã‹ã‚‰æ¨™æº–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è·é›¢
 	const float kDistanceObject = 100.0f;
 	worldTransform3DReticle_.translation_ = utility_->Multiply(kDistanceObject, mouseDirection);
 
@@ -107,9 +110,9 @@ void Player::Reticle(const ViewProjection& viewProjection, const Vector2 pos) {
 }
 
 Vector3 Player::Get3DReticleWorldPosition() {
-	// ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚éŠÖ”
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å…¥ã‚Œã‚‹é–¢æ•°
 	Vector3 worldPos;
-	// ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ğæ“¾iƒ[ƒ‹ƒhÀ•Wj
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ï¼‰
 	worldPos.x = worldTransform3DReticle_.matWorld_.m[3][0];
 	worldPos.y = worldTransform3DReticle_.matWorld_.m[3][1];
 	worldPos.z = worldTransform3DReticle_.matWorld_.m[3][2];
@@ -117,9 +120,9 @@ Vector3 Player::Get3DReticleWorldPosition() {
 }
 
 Vector3 Player::GetWorldPosition() {
-	// ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚éŠÖ”
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å…¥ã‚Œã‚‹é–¢æ•°
 	Vector3 worldPos;
-	// ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ğæ“¾iƒ[ƒ‹ƒhÀ•Wj
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ï¼‰
 	worldPos.x = worldTransform_.matWorld_.m[3][0];
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
@@ -127,9 +130,9 @@ Vector3 Player::GetWorldPosition() {
 }
 
 Vector3 Player::GetWorldRotation() {
-	// Šp“x‚ğ“ü‚ê‚éŠÖ”
+	// è§’åº¦ã‚’å…¥ã‚Œã‚‹é–¢æ•°
 	Vector3 worldRota;
-	// Šp“x‚ğæ“¾iƒ‰ƒWƒAƒ“j
+	// è§’åº¦ã‚’å–å¾—ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
 	worldRota.x = worldTransform_.rotation_.x;
 	worldRota.y = worldTransform_.rotation_.y;
 	worldRota.z = worldTransform_.rotation_.z;
@@ -137,14 +140,14 @@ Vector3 Player::GetWorldRotation() {
 }
 
 void Player::SetParent(const WorldTransform* parent) {
-	// eqŠÖŒn‚ğŒ‹‚Ô
+	// è¦ªå­é–¢ç³»ã‚’çµã¶
 	worldTransform_.parent_ = parent;
 	worldTransform3DReticle_.parent_ = parent;
 }
 
 void Player::Update(const ViewProjection& viewProjection) {
 
-	// ƒfƒXƒtƒ‰ƒO‚ª—§‚Á‚½’e‚ğíœ
+	// ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 	bullets_.remove_if([](PlayerBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
@@ -161,21 +164,21 @@ void Player::Update(const ViewProjection& viewProjection) {
 
 	
 
-	// ¶‰EˆÚ“®
+	// å·¦å³ç§»å‹•
 	if (input_->PushKey(DIK_A)) {
 		move.x -= kCharacterSpeed;
 	} else if (input_->PushKey(DIK_D)) {
 		move.x += kCharacterSpeed;
 	}
 
-	// ã‰ºˆÚ“®
+	// ä¸Šä¸‹ç§»å‹•
 	if (input_->PushKey(DIK_S)) {
 		move.y -= kCharacterSpeed;
 	} else if (input_->PushKey(DIK_W)) {
 		move.y += kCharacterSpeed;
 	}
 
-	// ù‰ñ
+	// æ—‹å›
 	if (input_->PushKey(DIK_RIGHTARROW)) {
 		worldTransform_.rotation_.y += kRotSpeed;
 	} else if (input_->PushKey(DIK_LEFTARROW)) {
@@ -183,10 +186,10 @@ void Player::Update(const ViewProjection& viewProjection) {
 	}
 
 	POINT mousePos;
-	// ƒ}ƒEƒXÀ•WiƒXƒNƒŠ[ƒ“À•Wj‚ğæ“¾‚·‚é
+	// ãƒã‚¦ã‚¹åº§æ¨™ï¼ˆã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ï¼‰ã‚’å–å¾—ã™ã‚‹
 	GetCursorPos(&mousePos);
 
-	// ƒNƒ‰ƒCƒAƒ“ƒgƒGƒŠƒAÀ•W‚É•ÏŠ·‚·‚é
+	// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¨ãƒªã‚¢åº§æ¨™ã«å¤‰æ›ã™ã‚‹
 	HWND hwnd = WinApp::GetInstance()->GetHwnd();
 	ScreenToClient(hwnd, &mousePos);
 
@@ -200,10 +203,10 @@ void Player::Update(const ViewProjection& viewProjection) {
 		bullet->Update();
 	}
 
-	// •½sˆÚ“®
+	// å¹³è¡Œç§»å‹•
 	worldTransform_.translation_ = utility_->Add(move, worldTransform_.translation_);
 
-	// ”ÍˆÍ‚ğ’´‚¦‚È‚¢ˆ—
+	// ç¯„å›²ã‚’è¶…ãˆãªã„å‡¦ç†
 	/*
 	const float kMoveLimitX = 34.0f;
 	const float kMoveLimitY = 18.0f;
@@ -226,7 +229,7 @@ void Player::Update(const ViewProjection& viewProjection) {
 
 void Player::Draw(ViewProjection viewprojection) {
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);
-	// ’e‚Ì•`‰æ
+	// å¼¾ã®æç”»
 	for (PlayerBullet* bullet : bullets_) {
 		bullet->Draw(viewprojection);
 	}

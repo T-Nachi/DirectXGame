@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Matrix4.h"
 #include "Vector2.h"
 #include "Vector3.h"
@@ -7,67 +7,67 @@ namespace MathUtility {
 
 const float PI = 3.141592654f;
 
-// ƒmƒ‹ƒ€(’·‚³)‚ğ‹‚ß‚é
+// ãƒãƒ«ãƒ (é•·ã•)ã‚’æ±‚ã‚ã‚‹
 float Vector2Length(const Vector2& v);
 
-// —ëƒxƒNƒgƒ‹‚ğ•Ô‚·
+// é›¶ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¿”ã™
 const Vector3 Vector3Zero();
-// 2ƒxƒNƒgƒ‹‚ªˆê’v‚µ‚Ä‚¢‚é‚©’²‚×‚é
+// 2ãƒ™ã‚¯ãƒˆãƒ«ãŒä¸€è‡´ã—ã¦ã„ã‚‹ã‹èª¿ã¹ã‚‹
 bool Vector3Equal(const Vector3& v1, const Vector3& v2);
-// ƒmƒ‹ƒ€(’·‚³)‚ğ‹‚ß‚é
+// ãƒãƒ«ãƒ (é•·ã•)ã‚’æ±‚ã‚ã‚‹
 float Vector3Length(const Vector3& v);
-// ³‹K‰»‚·‚é
+// æ­£è¦åŒ–ã™ã‚‹
 Vector3& Vector3Normalize(Vector3& v);
-// “àÏ‚ğ‹‚ß‚é
+// å†…ç©ã‚’æ±‚ã‚ã‚‹
 float Vector3Dot(const Vector3& v1, const Vector3& v2);
-// ŠOÏ‚ğ‹‚ß‚é
+// å¤–ç©ã‚’æ±‚ã‚ã‚‹
 Vector3 Vector3Cross(const Vector3& v1, const Vector3& v2);
 
-// 2€‰‰ZqƒI[ƒo[ƒ[ƒh
+// 2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 const Vector3 operator+(const Vector3& v1, const Vector3& v2);
 const Vector3 operator-(const Vector3& v1, const Vector3& v2);
 const Vector3 operator*(const Vector3& v, float s);
 const Vector3 operator*(float s, const Vector3& v);
 const Vector3 operator/(const Vector3& v, float s);
 
-// ’PˆÊs—ñ‚ğ‹‚ß‚é
+// å˜ä½è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 Matrix4Identity();
-// “]’us—ñ‚ğ‹‚ß‚é
+// è»¢ç½®è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 Matrix4Transpose(const Matrix4& m);
-// ‹ts—ñ‚ğ‹‚ß‚é
+// é€†è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 Matrix4 Matrix4Inverse(const Matrix4& m, float* det = nullptr);
 
-// Šg‘åk¬s—ñ‚Ìì¬
+// æ‹¡å¤§ç¸®å°è¡Œåˆ—ã®ä½œæˆ
 Matrix4 Matrix4Scaling(float sx, float sy, float sz);
 
-// ‰ñ“]s—ñ‚Ìì¬
+// å›è»¢è¡Œåˆ—ã®ä½œæˆ
 Matrix4 Matrix4RotationX(float angle);
 Matrix4 Matrix4RotationY(float angle);
 Matrix4 Matrix4RotationZ(float angle);
 
-// •½sˆÚ“®s—ñ‚Ìì¬
+// å¹³è¡Œç§»å‹•è¡Œåˆ—ã®ä½œæˆ
 Matrix4 Matrix4Translation(float tx, float ty, float tz);
 
-// ƒrƒ…[s—ñ‚Ìì¬
+// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã®ä½œæˆ
 Matrix4 Matrix4LookAtLH(const Vector3& eye, const Vector3& target, const Vector3& up);
-// •Às“Š‰es—ñ‚Ìì¬
+// ä¸¦è¡ŒæŠ•å½±è¡Œåˆ—ã®ä½œæˆ
 Matrix4 Matrix4Orthographic(
     float viewLeft, float viewRight, float viewBottom, float viewTop, float nearZ, float farZ);
-// “§‹“Š‰es—ñ‚Ìì¬
+// é€è¦–æŠ•å½±è¡Œåˆ—ã®ä½œæˆ
 Matrix4 Matrix4Perspective(float fovAngleY, float aspectRatio, float nearZ, float farZ);
 
-// À•W•ÏŠ·iwœZ‚È‚µj
+// åº§æ¨™å¤‰æ›ï¼ˆwé™¤ç®—ãªã—ï¼‰
 Vector3 Vector3Transform(const Vector3& v, const Matrix4& m);
-// À•W•ÏŠ·iwœZ‚ ‚èj
+// åº§æ¨™å¤‰æ›ï¼ˆwé™¤ç®—ã‚ã‚Šï¼‰
 Vector3 Vector3TransformCoord(const Vector3& v, const Matrix4& m);
-// ƒxƒNƒgƒ‹•ÏŠ·
+// ãƒ™ã‚¯ãƒˆãƒ«å¤‰æ›
 Vector3 Vector3TransformNormal(const Vector3& v, const Matrix4& m);
 
-// 2€‰‰ZqƒI[ƒo[ƒ[ƒh
+// 2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 Matrix4 operator*(const Matrix4& m1, const Matrix4& m2);
 Vector3 operator*(const Vector3& v, const Matrix4& m);
 
-// üŒ`•âŠÔ
+// ç·šå½¢è£œé–“
 float Lerp(float a, float b, float t);
 
 } // namespace MathUtility

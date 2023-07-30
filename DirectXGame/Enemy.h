@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include "Input.h"
 #include "Model.h"
 #include "Utility.h"
 #include <list>
 
-// ƒNƒ‰ƒX‚Ì‘O•ûéŒ¾
+// ã‚¯ãƒ©ã‚¹ã®å‰æ–¹å®£è¨€
 class Player;
 class GameScene;
 
@@ -13,26 +13,26 @@ public:
 	~Enemy();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(Model* model, uint32_t textureHandle_, const Vector3& position);
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(ViewProjection viewprojection);
 
-	// Ú‹ßƒtƒF[ƒYŠÖ”
+	// æ¥è¿‘ãƒ•ã‚§ãƒ¼ã‚ºé–¢æ•°
 	void PhaseApproach(const Vector3& v1, const Vector3& v2);
-	// —£’EƒtƒF[ƒYŠÖ”
+	// é›¢è„±ãƒ•ã‚§ãƒ¼ã‚ºé–¢æ•°
 	void PhaseLeave(const Vector3& v1, const Vector3& v2);
 
-	// ’e‚ÌŠÖ”
+	// å¼¾ã®é–¢æ•°
 	void Fire();
 
 	void approachInitialize();
@@ -41,13 +41,13 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	Vector3 GetWorldPosition();
 
-	// Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+	// è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void OnCollision();
 
-	// ’eƒŠƒXƒg‚ğæ“¾
+	// å¼¾ãƒªã‚¹ãƒˆã‚’å–å¾—
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 public:
@@ -56,21 +56,21 @@ public:
 	uint32_t textureHandle_ = 0u;
 	Utility* utility_ = nullptr;
 
-	// ƒfƒXƒtƒ‰ƒO
+	// ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°
 	bool isDead_ = false;
 
-	// ”­ËŠÔŠu
+	// ç™ºå°„é–“éš”
 	static const int kFireInterval = 60;
-	// ”­Ëƒ^ƒCƒ}[
+	// ç™ºå°„ã‚¿ã‚¤ãƒãƒ¼
 	int32_t fireTimer_ = 0;
 
-	// ƒtƒF[ƒY
+	// ãƒ•ã‚§ãƒ¼ã‚º
 	Vector3 velocityApproach = {0, 0, 0};
 	Vector3 velocityLeave = {0, 0, 0};
 
 	enum class Phase {
-		Approach, // Ú‹ß‚·‚é
-		Leave,    // —£’E‚·‚é
+		Approach, // æ¥è¿‘ã™ã‚‹
+		Leave,    // é›¢è„±ã™ã‚‹
 
 	};
 
@@ -78,6 +78,6 @@ public:
 
 	GameScene* gameScene_ = nullptr;
 
-	// ©ƒLƒƒƒ‰
+	// è‡ªã‚­ãƒ£ãƒ©
 	Player* player_ = nullptr;
 };

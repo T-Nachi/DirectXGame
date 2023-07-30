@@ -1,20 +1,20 @@
-#include "RailCamera.h"
+ï»¿#include "RailCamera.h"
 #include "ImGuiManager.h"
 RailCamera ::~RailCamera() { delete utility_; }
 
 void RailCamera::Initialize(const Vector3& position, const Vector3& rotation) {
-	// ƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ì‰Šúİ’è
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®åˆæœŸè¨­å®š
 	worldTransform_.translation_ = position;
 	worldTransform_.rotation_ = rotation;
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 
-	// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“‚Ì‰Šú‰»
+	// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
 	viewProjection_.farZ = 1000.0f;
 	viewProjection_.Initialize();
 }
 
 /// <summary>
-/// –ˆƒtƒŒ[ƒ€ˆ—
+/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 /// </summary>
 void RailCamera::Update() {
 
@@ -22,15 +22,15 @@ void RailCamera::Update() {
 	velocity_ = {0, 0, kCameraSpeed};
 	// worldTransform_.rotation_.y += kCameraSpeed;
 
-	// ˆÚ“®
+	// ç§»å‹•
 	worldTransform_.translation_ = utility_->Add(worldTransform_.translation_, velocity_);
-	// ‰ñ“]
+	// å›è»¢
 	worldTransform_.rotation_ = utility_->Add(worldTransform_.rotation_, rotation_);
-	// ƒ[ƒ‹ƒhs—ñ‚ÌÄŒvZ
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å†è¨ˆç®—
 	worldTransform_.matWorld_ = utility_->MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-	// ƒJƒƒ‰ƒIƒuƒWƒFƒNƒg‚Ìƒ[ƒ‹ƒhs—ñ‚©‚çƒrƒ…[s—ñ‚ğŒvZ‚·‚é
+	// ã‚«ãƒ¡ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã‹ã‚‰ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã‚’è¨ˆç®—ã™ã‚‹
 
 	viewProjection_.matView = utility_->Inverse(worldTransform_.matWorld_);
 

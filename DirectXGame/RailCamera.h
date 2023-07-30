@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Utility.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
@@ -8,23 +8,23 @@ public:
 	~RailCamera();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(const Vector3& position, const Vector3& rotation);
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“‚ğæ“¾
+	/// ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—
 	/// </summary>
-	/// <returns>ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“</returns>
+	/// <returns>ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³</returns>
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
 	/// <summary>
-	/// ƒ[ƒ‹ƒhƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾
+	/// ãƒ¯ãƒ¼ãƒ«ãƒ‰ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
 	/// </summary>
 	const WorldTransform& GetWorldMatrix() { return worldTransform_; }
 
@@ -32,11 +32,11 @@ private:
 	WorldTransform worldTransform_;
 	ViewProjection viewProjection_;
 
-	// ”ŠwŠÖ”
+	// æ•°å­¦é–¢æ•°
 	Utility* utility_ = nullptr;
 
-	// ‘¬“x
+	// é€Ÿåº¦
 	Vector3 velocity_ = {0.0f, 0.0f, 0.0f};
-	// Šp“x
+	// è§’åº¦
 	Vector3 rotation_ = {0.0f, 0.0f, 0.0f};
 };

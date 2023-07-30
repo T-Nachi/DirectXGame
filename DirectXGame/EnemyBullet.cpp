@@ -1,24 +1,24 @@
-#include "EnemyBullet.h"
+ï»¿#include "EnemyBullet.h"
 #include "ImGuiManager.h"
 #include <cassert>
 
 Vector3 EnemyBullet::GetWorldPosition() {
-	// ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚éŠÖ”
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å…¥ã‚Œã‚‹é–¢æ•°
 	Vector3 worldPos;
-	// ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ğæ“¾iƒ[ƒ‹ƒhÀ•Wj
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—ï¼ˆãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ï¼‰
 	worldPos.x = worldTransform_.translation_.x;
 	worldPos.y = worldTransform_.translation_.y;
 	worldPos.z = worldTransform_.translation_.z;
 	return worldPos;
 }
 
-// Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+// è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 void EnemyBullet::OnCollision() { isDead_ = true; }
 
 EnemyBullet::~EnemyBullet() { delete utility_; }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void EnemyBullet::Initialize(Model* model, Vector3& position, const Vector3& velocity) {
 
@@ -29,16 +29,16 @@ void EnemyBullet::Initialize(Model* model, Vector3& position, const Vector3& vel
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
 
-	// ˆø”‚Åó‚¯æ‚Á‚½‘¬“x‚ğƒƒ“ƒo•Ï”‚É‘ã“ü
+	// å¼•æ•°ã§å—ã‘å–ã£ãŸé€Ÿåº¦ã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã«ä»£å…¥
 	velocity_ = velocity;
 };
 
 /// <summary>
-/// –ˆƒtƒŒ[ƒ€ˆ—
+/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 /// </summary>
 void EnemyBullet::Update() {
 
-	// ŠÔŒo‰ß‚ÅƒfƒX
+	// æ™‚é–“çµŒéã§ãƒ‡ã‚¹
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
 	}
@@ -48,7 +48,7 @@ void EnemyBullet::Update() {
 };
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void EnemyBullet::Draw(const ViewProjection& viewprojection) {
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);

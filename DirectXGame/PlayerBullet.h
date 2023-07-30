@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Input.h"
 #include "Model.h"
 #include "ViewProjection.h"
@@ -8,26 +8,26 @@ class PlayerBullet {
 public:
 	~PlayerBullet();
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize(Model* model, const Vector3& position, const Vector3& velocity);
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€ˆ—
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw(const ViewProjection& viewprojection);
 
 	bool IsDead() const { return isDead_; }
 
-	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	Vector3 GetWorldPosition();
 
-	// Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+	// è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void OnCollision();
 
 private:
@@ -36,14 +36,14 @@ private:
 	uint32_t textureHandle_ = 0u;
 	Utility* utility_ = nullptr;
 	Input* input_ = nullptr;
-	// ‘¬“x
+	// é€Ÿåº¦
 	Vector3 velocity_;
 
-	// õ–½
+	// å¯¿å‘½
 	static const int32_t kLifeTime = 60 * 5;
-	// ƒfƒXƒ^ƒCƒ}[
+	// ãƒ‡ã‚¹ã‚¿ã‚¤ãƒãƒ¼
 	int32_t deathTimer_ = kLifeTime;
-	// ƒfƒXƒtƒ‰ƒO
+	// ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°
 	bool isDead_ = false;
 
 	int bulletcount_ = 10;

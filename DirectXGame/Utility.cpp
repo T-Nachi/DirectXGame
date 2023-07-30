@@ -1,6 +1,6 @@
-#include "Utility.h"
+ï»¿#include "Utility.h"
 
-// ‰ñ“]X
+// å›è»¢X
 Matrix4x4 Utility::MakeRotateXMatrix(float theta = 0) {
 	Matrix4x4 MakeRotateMatrix;
 	MakeRotateMatrix.m[0][0] = 1;
@@ -65,7 +65,7 @@ Matrix4x4 Utility::MakeRotateZMatrix(float theta = 0) {
 	return MakeRotateMatrix;
 }
 
-// ƒXƒJƒ‰[”{
+// ã‚¹ã‚«ãƒ©ãƒ¼å€
 Matrix4x4 Utility::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 multiply;
 	multiply.m[0][0] = m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0] +
@@ -107,7 +107,7 @@ Matrix4x4 Utility::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return multiply;
 };
 
-// •½sˆÚ“®
+// å¹³è¡Œç§»å‹•
 Matrix4x4 Utility::MakeTranselateMatrix(const Vector3& translate) {
 	Matrix4x4 MakeTranslateMatrix;
 	MakeTranslateMatrix.m[0][0] = 1;
@@ -129,10 +129,10 @@ Matrix4x4 Utility::MakeTranselateMatrix(const Vector3& translate) {
 	return MakeTranslateMatrix;
 };
 
-// ƒAƒtƒBƒ“•ÏŠ·
+// ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›
 Matrix4x4 Utility::MakeAffineMatrix(
     const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
-	// ‰ñ“]
+	// å›è»¢
 	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
 	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
@@ -175,7 +175,7 @@ Vector3 Utility::Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	return result;
 };
 
-// ‰ÁZ
+// åŠ ç®—
 Vector3 Utility::Add(const Vector3& v1, const Vector3& v2) {
 	Vector3 add;
 	add.x = v1.x + v2.x;
@@ -184,7 +184,7 @@ Vector3 Utility::Add(const Vector3& v1, const Vector3& v2) {
 	return add;
 };
 
-// Œ¸Z
+// æ¸›ç®—
 Vector3 Utility::Subract(const Vector3& v1, const Vector3& v2) {
 	Vector3 subract;
 	subract.x = v1.x - v2.x;
@@ -193,7 +193,7 @@ Vector3 Utility::Subract(const Vector3& v1, const Vector3& v2) {
 	return subract;
 };
 
-// ƒXƒJƒ‰[”{
+// ã‚¹ã‚«ãƒ©ãƒ¼å€
 Vector3 Utility::Multiply(float scalar, const Vector3& v) {
 	Vector3 multiply;
 	multiply.x = v.x * scalar;
@@ -202,13 +202,13 @@ Vector3 Utility::Multiply(float scalar, const Vector3& v) {
 	return multiply;
 };
 
-// ’·‚³(ƒmƒ‹ƒ})
+// é•·ã•(ãƒãƒ«ãƒ)
 float Utility::Length(const Vector3& v) {
 	float length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	return length;
 };
 
-// ³‹K‰»
+// æ­£è¦åŒ–
 Vector3 Utility::Normalize(const Vector3& v) {
 	Vector3 normalize;
 	float mag = 1 / sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
@@ -227,7 +227,7 @@ Vector3 Utility::TransformNormal(const Vector3& vector, const Matrix4x4& matrix)
 	return result;
 };
 
-// ‹ts—ñ
+// é€†è¡Œåˆ—
 Matrix4x4 Utility::Inverse(const Matrix4x4& m) {
 	Matrix4x4 Inverse;
 	float A = m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3] +
@@ -332,7 +332,7 @@ Matrix4x4 Utility::Inverse(const Matrix4x4& m) {
 	return Inverse;
 };
 
-// Œ¸Z
+// æ¸›ç®—
 Matrix4x4 Utility::Subract(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 subract;
 	subract.m[0][0] = m1.m[0][0] - m2.m[0][0];
@@ -354,7 +354,7 @@ Matrix4x4 Utility::Subract(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return subract;
 };
 
-// ƒrƒ…[ƒ|[ƒgs—ñ
+// ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¡Œåˆ—
 Matrix4x4 Utility::MakeViewportMatrix(
     float left, float top, float width, float height, float minDepth, float maxDepth) {
 	Matrix4x4 MakeViewportMatrix;
